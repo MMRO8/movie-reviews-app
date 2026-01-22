@@ -2,7 +2,10 @@ const loginForm = document.getElementById("loginForm");
 const errorMsg = document.getElementById("error-msg");
 
 // رابط الباك إند الخاص بالمستخدمين
-const API_LINK = "https://my-movie-api-vx.onrender.com/api/v1/movies/";
+// تعريف الرابط (Render)
+const APILINK = "https://my-movie-api-vx.onrender.com/api/v1/login"; 
+
+// ... بقية الكود كما هو ...
 
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
