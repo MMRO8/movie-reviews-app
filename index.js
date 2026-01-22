@@ -1,52 +1,64 @@
-// 🟢 تعريف الرابط الصحيح (Render)
-// في index.js المسار هو /api/v1/users
-// لذا الرابط الكامل لتسجيل الدخول يكون:
-const APILINK = "https://my-movie-api-vx.onrender.com/api/v1/users/login";
+const express = require("express");
+const cors = require("cors");
+const { MongoClient } = require("mongodb");
+require("dotenv").config();
 
-const loginForm = document.querySelector("#login-form"); // تأكد من ID الفورم في HTML
-const emailInput = document.querySelector("#email"); // تأكد من ID الإيميل
-const passwordInput = document.querySelector("#password"); // تأكد من ID الباسورد
+// استيراد الملفات
+const favorites = require("./api/favorites.route");
+const FavoritesDAO = require("./dao/favoritesDAO");
+const admin = require("./api/admin.route");
+const AdminDAO = require("./dao/adminDAO");
+const movies = require("./api/movies.route");
+const MoviesDAO = require("./dao/moviesDAO");
+const reviews = require("./api/reviews.route");
+const ReviewsDAO = require("./dao/reviewsDAO");
+const users = require("./api/users.route");
+const UsersDAO = require("./dao/usersDAO");
 
-if (loginForm) {
-  loginForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+const app = express();
+const port = process.env.PORT || 8000;
 
-    const email = emailInput.value;
-    const password = passwordInput.value;
+// Middleware
+app.use(cors());
+app.use(express.json());
 
-    if (!email || !password) {
-      alert("Please fill in all fields!");
-      return;
-    }
+// الروابط (Routes)
+app.use("/api/v1/admin", admin);
+app.use("/api/v1/favorites", favorites);
+app.use("/api/v1/movies", movies);
+app.use("/api/v1/reviews", reviews);
+app.use("/api/v1/users", users);
 
-    try {
-      console.log("Attempting to login to:", APILINK); // للمراقبة في الكونسول
+// 🔥 التعديل هنا: حذفنا "*" لكي لا ينهار السيرفر
+app.use((req, res) => res.status(404).json({ error: "not found" }));
 
-      const res = await fetch(APILINK, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email, // تأكد أن الباك إند يتوقع "email"
-          password: password, // تأكد أن الباك إند يتوقع "password"
-        }),
-      });
+// الاتصال بقاعدة البيانات وتشغيل السيرفر
+const uri = process.env.MONGO_URI;
+const client = new MongoClient(uri, {
+  maxPoolSize: 50,
+  wtimeoutMS: 2500,
+});
 
-      const data = await res.json();
-      console.log("Server response:", data); // لنرى ماذا رد السيرفر
+async function run() {
+  try {
+    await client.connect();
 
-      // هنا نتحقق حسب رد سيرفرك (قد يكون data.status أو data.token)
-      if (data.status === "success" || data.user || data.token) {
-        // تم الدخول بنجاح
-        localStorage.setItem("user", data.name || data.user || email); // حفظ الاسم
-        window.location.href = "index.html"; // التوجيه للصفحة الرئيسية
-      } else {
-        alert("Incorrect Password or User! ❌");
-      }
-    } catch (err) {
-      console.error("Login Error:", err);
-      alert("Connection Error! Check Console.");
-    }
-  });
+    // حقن قاعدة البيانات
+    await AdminDAO.injectDB(client);
+    await UsersDAO.injectDB(client);
+    await FavoritesDAO.injectDB(client);
+    await MoviesDAO.injectDB(client);
+    await ReviewsDAO.injectDB(client);
+
+    console.log("✅ Connected to MongoDB successfully!");
+
+    app.listen(port, () => {
+      console.log(`🚀 Server is running on port: ${port}`);
+    });
+  } catch (error) {
+    console.error("❌ Failed to connect to database:", error);
+    process.exit(1);
+  }
 }
+
+run().catch(console.dir);
