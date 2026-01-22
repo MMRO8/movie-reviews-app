@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us - Movie Reviews</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* --- تصميم الصفحة --- */
+      :root {
+        --primary-color: #e50914; /* لون أحمر مثل نتفليكس */
+        --dark-bg: #141414;
+        --light-text: #ffffff;
+      }
+
+      body {
+        background-color: var(--dark-bg);
+        color: var(--light-text);
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      /* القائمة العلوية */
+      header {
+        background-color: #000;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        color: var(--primary-color);
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-decoration: none;
+      }
+
+      nav a {
+        color: #fff;
+        text-decoration: none;
+        margin-left: 20px;
+        transition: 0.3s;
+      }
+
+      nav a:hover {
+        color: var(--primary-color);
+      }
+
+      /* محتوى صفحة من نحن */
+      .about-container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 40px;
+        background: rgba(255, 255, 255, 0.05); /* شفافية خفيفة */
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        text-align: center;
+      }
+
+      .about-container h1 {
+        color: var(--primary-color);
+        font-size: 3rem;
+        margin-bottom: 20px;
+      }
+
+      .about-container p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #ccc;
+        margin-bottom: 30px;
+      }
+
+      .dev-card {
+        background: #222;
+        padding: 20px;
+        border-radius: 10px;
+        display: inline-block;
+        margin-top: 20px;
+        border: 1px solid #333;
+      }
+
+      .dev-card h3 {
+        margin: 10px 0 5px 0;
+        color: #fff;
+      }
+
+      .dev-card span {
+        color: var(--primary-color);
+        font-size: 0.9rem;
+      }
+
+      /* الفوتر */
+      footer {
+        margin-top: auto;
+        text-align: center;
+        padding: 20px;
+        background-color: #000;
+        color: #777;
+      }
+
+      /* زر العودة */
+      .btn {
+        display: inline-block;
+        background-color: var(--primary-color);
+        color: white;
+        padding: 10px 25px;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-top: 20px;
+        font-weight: bold;
+      }
+
+      .btn:hover {
+        background-color: #b20710;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="index.html" class="logo">Movie Reviews</a>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html" style="color: var(--primary-color)">About</a>
+      </nav>
+    </header>
+
+    <div class="about-container">
+      <h1>Our Story</h1>
+
+      <p>
+        Welcome to <strong>Movie Reviews App</strong>, your ultimate destination
+        for discovering the world of cinema. We built this platform for movie
+        lovers, by movie lovers.
+      </p>
+
+      <p>
+        Our mission is simple: to provide a space where you can find the latest
+        movies, read honest reviews, and create your own personal list of
+        favorites. Whether you are into action, drama, or sci-fi, we have got
+        you covered.
+      </p>
+
+      <div class="dev-card">
+        <h3>Developed By</h3>
+        <p>A Passionate Full Stack Developer</p>
+        <span>🚀 Powered by MERN Stack (MongoDB, Express, React/JS, Node)</span>
+      </div>
+
+      <br />
+      <a href="index.html" class="btn">Back to Home</a>
+    </div>
+
+    <footer>
+      <p>&copy; 2024 Movie Reviews App. All Rights Reserved.</p>
+    </footer>
+  </body>
+</html>

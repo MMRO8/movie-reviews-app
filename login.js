@@ -1,53 +1,50 @@
-// 🟢 رابط السيرفر الخاص بك (Render)
-const APILINK = "https://my-movie-api-vx.onrender.com/api/v1/users/login";
+const loginForm = document.getElementById("loginForm");
+const errorMsg = document.getElementById("error-msg");
 
-const loginForm = document.querySelector("#login-form");
-// ملاحظة: حتى لو كان id الخانة في html هو email، سنأخذ قيمتها ونرسلها كـ username
-const userInput = document.querySelector("#email");
-const passwordInput = document.querySelector("#password");
+// رابط الباك إند الخاص بالمستخدمين
+const APILINK = "http://localhost:8000/api/v1/users/";
 
-if (loginForm) {
-  loginForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+loginForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-    const usernameValue = userInput.value;
-    const passwordValue = passwordInput.value;
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
 
-    if (!usernameValue || !passwordValue) {
-      alert("Please fill in all fields!");
-      return;
+  // مسح رسائل الخطأ السابقة
+  errorMsg.innerText = "";
+
+  try {
+    // إرسال طلب الدخول للسيرفر
+    const response = await fetch(APILINK + "login", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username: username, password: password }),
+    });
+
+    const data = await response.json();
+
+    if (data.status === "success") {
+      // 1. حفظ اسم المستخدم في المتصفح
+      localStorage.setItem("user", data.username);
+
+      // 2. تغيير لون الزر للأخضر كنوع من الاحتفال
+      const btn = document.querySelector(".login-btn");
+      btn.style.backgroundColor = "#4caf50";
+      btn.innerText = "Success! Redirecting...";
+
+      // 3. الانتقال للصفحة الرئيسية بعد ثانية واحدة
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 1000);
+    } else {
+      // إذا كان هناك خطأ (الاسم أو كلمة السر خطأ)
+      errorMsg.innerText = "❌ " + (data.error || "Login failed");
     }
-
-    try {
-      console.log("Sending login request for:", usernameValue);
-
-      const res = await fetch(APILINK, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        // 🔥 الإصلاح هنا: نرسل username لأن الـ Controller ينتظر username
-        body: JSON.stringify({
-          username: usernameValue,
-          password: passwordValue,
-        }),
-      });
-
-      const data = await res.json();
-      console.log("Server response:", data);
-
-      // 🔥 التحقق حسب رد الـ Controller الخاص بك
-      if (data.status === "success") {
-        // تم الدخول بنجاح
-        localStorage.setItem("user", data.username); // حفظ الاسم
-        window.location.href = "index.html"; // الانتقال للصفحة الرئيسية
-      } else {
-        // عرض رسالة الخطأ القادمة من السيرفر (User not found أو Wrong password)
-        alert("Login Failed: " + (data.error || "Unknown error"));
-      }
-    } catch (err) {
-      console.error("Login Error:", err);
-      alert("Connection Error! Check Console.");
-    }
-  });
-}
+  } catch (err) {
+    console.error(err);
+    errorMsg.innerText = "❌ Server error, please try again later.";
+  }
+});

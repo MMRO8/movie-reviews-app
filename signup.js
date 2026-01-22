@@ -1,7 +1,7 @@
 const signupForm = document.getElementById("signupForm");
 const errorMsg = document.getElementById("error-msg");
 
-const API_LINK = "https://my-movie-api-vx.onrender.com/api/v1/movies/";
+const APILINK = "http://localhost:8000/api/v1/users/";
 
 signupForm.addEventListener("submit", async (e) => {
   e.preventDefault();
