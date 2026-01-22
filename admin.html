@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* تنسيقات خاصة بالداشبورد */
+      .dashboard-container {
+        padding: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 30px;
+      }
+      .stat-card {
+        background: #1e1e1e;
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        border-bottom: 5px solid var(--accent-color);
+        transition: transform 0.3s;
+      }
+      .stat-card:hover {
+        transform: translateY(-10px);
+      }
+      .stat-number {
+        font-size: 3rem;
+        font-weight: bold;
+        color: white;
+        margin: 10px 0;
+      }
+      .stat-label {
+        color: #888;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topnav">
+      <a class="active" href="index.html">Movies Site</a>
+      <div class="user-panel">
+        <span style="color: red; font-weight: bold">ADMIN MODE 🛡️</span>
+        <button class="logout-btn" onclick="location.href = 'index.html'">
+          Exit
+        </button>
+      </div>
+    </div>
+
+    <div class="dashboard-container">
+      <h1 style="color: white">Dashboard Overview 📊</h1>
+      <div style="text-align: center; margin-bottom: 30px">
+        <a
+          href="add-movie.html"
+          class="login-btn"
+          style="padding: 15px 30px; font-size: 1.2rem; text-decoration: none"
+        >
+          ➕ Add New Movie
+        </a>
+      </div>
+      <p style="color: #666">Welcome back, Commander.</p>
+
+      <div class="stats-grid" id="stats-grid">
+        <h2 style="color: white">Loading Intelligence...</h2>
+      </div>
+    </div>
+
+    <script>
+      const API_URL = "http://localhost:8000/api/v1/admin/stats";
+
+      // 1. الحماية: التأكد أن المستخدم هو الأدمن
+      // استبدل "admin" باسم المستخدم الخاص بك إذا كان مختلفاً
+      const user = localStorage.getItem("user");
+      if (user !== "admin") {
+        window.location.href = "index.html"; // طرد المتطفلين
+      }
+
+      // 2. جلب الإحصائيات
+      fetch(API_URL)
+        .then((res) => res.json())
+        .then((data) => {
+          const grid = document.getElementById("stats-grid");
+          grid.innerHTML = `
+                    <div class="stat-card" style="border-color: #4caf50;">
+                        <div class="stat-number">${data.users}</div>
+                        <div class="stat-label">Total Users 👤</div>
+                    </div>
+                    <div class="stat-card" style="border-color: #2196f3;">
+                        <div class="stat-number">${data.reviews}</div>
+                        <div class="stat-label">Total Reviews 📝</div>
+                    </div>
+                    <div class="stat-card" style="border-color: #f44336;">
+                        <div class="stat-number">${data.favorites}</div>
+                        <div class="stat-label">Total Favorites ❤️</div>
+                    </div>
+                `;
+        });
+    </script>
+  </body>
+</html>

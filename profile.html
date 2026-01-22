@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Profile</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="topnav">
+      <a class="active" href="index.html">Movies Site</a>
+      <div class="user-panel" id="user-panel"></div>
+    </div>
+
+    <div class="profile-header">
+      <div class="profile-card">
+        <img id="profile-avatar" src="" alt="Avatar" class="profile-avatar" />
+        <h1 id="profile-name">User Name</h1>
+        <p>Member of our Movie Club 🎬</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <h2 style="padding: 20px; color: red">My Watchlist ❤️</h2>
+      <div
+        id="favorites-section"
+        style="display: flex; flex-wrap: wrap; padding: 20px; gap: 20px"
+      >
+        <p style="color: #666">Loading favorites...</p>
+      </div>
+    </div>
+
+    <hr style="border-color: #333; margin: 20px" />
+
+    <div class="container">
+      <h2 style="padding: 20px; color: var(--accent-color)">
+        My Reviews History 📜
+      </h2>
+      <section id="section"></section>
+    </div>
+
+    <script src="profile.js"></script>
+  </body>
+</html>

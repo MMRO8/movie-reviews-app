@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add New Movie</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="topnav">
+      <a class="active" href="index.html">Home</a>
+      <div class="user-panel">
+        <a href="admin.html" style="color: red">Back to Dashboard 🛡️</a>
+      </div>
+    </div>
+
+    <div class="container">
+      <div
+        class="card"
+        style="max-width: 600px; margin: 50px auto; padding: 20px"
+      >
+        <center>
+          <h2 style="color: var(--accent-color)">Add New Blockbuster 🎬</h2>
+        </center>
+
+        <label style="color: white">Movie Title:</label>
+        <input
+          type="text"
+          id="m_title"
+          placeholder="e.g. Joker, Avengers, Inception..."
+          style="width: 100%; padding: 10px; margin-bottom: 20px"
+        />
+
+        <label style="color: white">Plot (Description):</label>
+        <textarea
+          id="m_plot"
+          rows="4"
+          placeholder="Brief story..."
+          style="width: 100%; padding: 10px; margin-bottom: 20px"
+        ></textarea>
+
+        <button onclick="saveMovie()" class="login-btn" style="width: 100%">
+          🚀 Add Movie to Database
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const API_LINK = "http://localhost:8000/api/v1/movies/";
+
+      async function saveMovie() {
+        const title = document.getElementById("m_title").value;
+        const plot = document.getElementById("m_plot").value;
+
+        if (!title) {
+          alert("Please enter a title!");
+          return;
+        }
+
+        try {
+          const res = await fetch(API_LINK, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ title: title, plot: plot }),
+          });
+
+          const data = await res.json();
+
+          if (data.status === "success") {
+            alert("✅ Movie Added Successfully!");
+            // نذهب للصفحة الرئيسية لنرى الفيلم الجديد فوراً
+            window.location.href = "index.html";
+          } else {
+            alert("Error adding movie");
+          }
+        } catch (e) {
+          console.error(e);
+          alert("Server Error");
+        }
+      }
+    </script>
+  </body>
+</html>
