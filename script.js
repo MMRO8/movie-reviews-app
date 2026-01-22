@@ -1,7 +1,8 @@
-// 1. الروابط (Backend Links)
-const LOCAL_API_LINK = "http://localhost:8000/api/v1/movies/";
-const LOCAL_SEARCH_API = "http://localhost:8000/api/v1/movies?title=";
-const FAV_API = "http://localhost:8000/api/v1/favorites/";
+// الروابط العالمية (Render) 🌍
+const LOCAL_API_LINK = "https://my-movie-api-vx.onrender.com/api/v1/movies/";
+const LOCAL_SEARCH_API =
+  "https://my-movie-api-vx.onrender.com/api/v1/movies?title=";
+const FAV_API = "https://my-movie-api-vx.onrender.com/api/v1/favorites/";
 
 // 2. روابط الصور (TMDB Only) 📸
 // مفتاح جديد ومضمون

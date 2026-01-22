@@ -1,6 +1,5 @@
 // 1. تعريف الروابط والثوابت (مرة واحدة فقط)
-const APILINK = "http://localhost:8000/api/v1/reviews/";
-
+const APILINK = "https://my-movie-api-vx.onrender.com/api/v1/reviews/";
 // ثوابت الصور (للخلفية)
 const TMDB_API_KEY = "67d0746aca0d123043ebc6a69eed5780";
 const TMDB_SEARCH_URL = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=`;

@@ -1,4 +1,4 @@
-const APILINK = "http://localhost:8000/api/v1/reviews/";
+const APILINK = "https://my-movie-api-vx.onrender.com/api/v1/reviews/";
 
 const user = localStorage.getItem("user");
 const main = document.getElementById("section");
@@ -113,8 +113,7 @@ function saveEdit(id, movieId) {
 // --- قسم المفضلة (Watchlist Logic) ---
 
 const favSection = document.getElementById("favorites-section");
-const FAV_API = "http://localhost:8000/api/v1/favorites/";
-
+const FAV_API = "https://my-movie-api-vx.onrender.com/api/v1/favorites/";
 // استدعاء الدالة فوراً
 getFavorites();
 
